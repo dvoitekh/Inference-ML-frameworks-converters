@@ -12,7 +12,7 @@ from collections import defaultdict
 from tqdm import tqdm
 from onnx_tf.backend import prepare
 from torch.utils.mobile_optimizer import optimize_for_mobile
-from torchvision import transforms
+from torchvision import transforms, models
 from PIL import Image
 from coremltools.models.neural_network.quantization_utils import quantize_weights
 
@@ -149,7 +149,7 @@ def main(mode: str, softmax: bool):
     labels = list(pd.read_csv('labels.csv', header=None)[0])
     sample_input = torch.rand(shape)
 
-    base_model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True).eval()
+    base_model = models.mobilenet_v2(pretrained=True).eval()
 
     class AdjustedModel(torch.nn.Module):
         def __init__(self):
