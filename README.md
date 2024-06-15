@@ -1,27 +1,43 @@
-# Convert PyTorch model to Portable ML frameworks
+## On-device ML tutorial
 
-This repo contains a script to convert PyTorch MobileNetV2 model trained on Imagenet to inference frameworks like TorchMobile, ONNX, TFLite, and CoreML.
-<b>NOTE</b>: you can perform inference of the CoreML model only in MacOS.
+NOTE: this tutorial is recommended to be launched on your local machine so you can build and run mobile and browser apps with the model.
 
-## Setup
+## Convert the PyTorch model to portable formats
+
+1. Install requirements for models conversion script:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Run the conversion script
+2. Run the script to convert pretrained Imagenet MobileNetV2 model from PyTorch to major portable ML formats (CoreML, TFLite, TorchMobile, ONNX)
 
 ```bash
-python3 run.py
+python convert.py --softmax true
 ```
 
-## Assignment
+3. After it's done, you'll see checkpoints in the [models](./models) directory
 
-1. Launch a `run.py` file to get checkpoints for all Portable ML frameworks, make sure that it works and you get valid predictions for the test image
+4. <b>Additional task</b>. In the end of the script add some code to evaluate the quality of conversion to different formats as suggested in comments. It's up to you to select metrics and assertions to perform.
 
-2. Add some code to the bottom of the `main` function that evaluates the quality of conversion for different formats (with respect to the original PyTorch model) based on randomly generated inputs
 
-3. It's up to you to select the metric for quality conversion
+## Run CoreML model in the iOS/MacOS app
 
-4. You can output metrics in any format: numbers, plots, etc
+1. On your Mac, open Finder and navigate to [coreml](./coreml) directory
+
+2. Open `Imagenet.xcodeproj` so it will launch your Xcode
+
+3. Change the build target at the top of the window to `My Mac (Catalyst)` and run the app
+
+## Run TF.js with TFLite model
+
+1. From the [tfjs](./tfjs) directory run the file server:
+
+```
+python -m http.server 3000
+```
+
+2. Navigate to http://localhost:3000 in your browser and test out the classifier on the camera stream
+
+
 
